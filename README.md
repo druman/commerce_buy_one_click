@@ -103,7 +103,7 @@ Add button to cart page
 Need add this code in page.tpl.php or in block
 
 <?php if (arg(0) == 'cart') { 
-  // ïðîâåðÿåì ïóñòàÿ ëè êîðçèíà	
+  // Ð¿Ñ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ð¿ÑƒÑÑ‚Ð°Ñ Ð»Ð¸ ÐºÐ¾Ñ€Ð·Ð¸Ð½Ð°	
   $incart = commerce_buy_one_click_access_check();
   if ($incart == 1) { ?>
 	<div id="cart-one-click">
