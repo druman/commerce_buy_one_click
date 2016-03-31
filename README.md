@@ -96,3 +96,24 @@ jQuery(function() {
     // ...
   };
 });
+
+=====================
+Add button to cart page
+=====================
+Need add this code in page.tpl.php or in block
+
+<?php if (arg(0) == 'cart') { 
+  // проверяем пустая ли корзина	
+  $incart = commerce_buy_one_click_access_check();
+  if ($incart == 1) { ?>
+	<div id="cart-one-click">
+	  <div class="commerce-buy-one-click-button-wrapper">
+		<div class="commerce-buy-one-click-button-product-id element-hidden">0</div>
+		<div class="commerce-buy-one-click-button-add-product-to-cart element-hidden"></div>
+		<div class="commerce-buy-one-click-button-quantity element-hidden">1</div>
+		<a href="#" class="btn btn-warning commerce-buy-one-click-button"><?php print t('Buy now with 1-Click'); ?></a>
+	  </div>
+	</div>
+<?php 
+  } 
+} ?>
