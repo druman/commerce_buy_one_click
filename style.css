@@ -1,0 +1,104 @@
+/*********** BUY ONE CLICK ***************/
+.fancybox-wrap {
+	z-index: 10000;
+}
+.fancybox-wrap #commerce-buy-one-click-form {
+	padding: 0 8px;
+}
+.fancybox-wrap #commerce-buy-one-click-form .title {
+	text-align: center;
+    overflow: hidden;
+    border-radius: 3px 3px 0 0;
+    background: #466996;
+    color: #fff;
+    text-shadow: 0 -1px 0 #1B457D;
+    font-size: 1em;
+    margin: 0 0 11.05px 0;
+    padding: 8px 0;
+}
+.fancybox-wrap #commerce-buy-one-click-form .pr-inf {
+    border-bottom: 1px dotted #466996;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+.fancybox-wrap #commerce-buy-one-click-form .pr-inf h3 {
+    font-size: 1.3em;
+    text-align: center;
+}
+.fancybox-wrap #commerce-buy-one-click-form .pr-inf-img, .fancybox-wrap #commerce-buy-one-click-form .pr-inf-price {
+	display: inline-block;
+}
+.fancybox-wrap #commerce-buy-one-click-form .pr-inf-img img {
+    background: #D4D3D3;
+    padding: 1px;
+    border-radius: 3px;
+    margin-right: 20px;
+}
+.fancybox-wrap #commerce-buy-one-click-form .pr-inf-price {
+	font-size: 1.1em;
+}
+.fancybox-wrap #commerce-buy-one-click-form .pr-inf-price span {
+    color: #466996;
+    font-weight: bold;
+}
+
+.fancybox-wrap #commerce-buy-one-click-form .messages.error {
+	padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #FB3D3D;
+    color: #FB3D3D;
+    font-size: 0.9em;
+}
+.ord-create {
+	margin: 0 0 10px;
+    font-size: 1.5em;
+    line-height: 1;
+}
+.ord-numb {
+	color: #466996;
+    font-weight: bold;
+	margin:15px 0 12px 0;
+}
+.ord-numb strong {
+	color: #00ADA5;
+}
+.commerce-buy-one-click-button-wrapper {
+    position: absolute;
+    bottom: -45px;
+    right: 0;
+	z-index: 10;
+}
+.commerce-buy-one-click-button-wrapper .commerce-buy-one-click-button  {  
+    text-decoration: none!important;
+    color: #383838!important;
+    background-color: #F4F4F4;
+    border: 1px solid #c3c3c3;
+	font-size: 0.9em;
+    background: #e2e0e0;
+    background: -moz-linear-gradient(270deg,#e2e0e0 0,#fff 100%);
+    background: -webkit-linear-gradient(270deg,#e2e0e0 0,#fff 100%);
+    background: -o-linear-gradient(270deg,#e2e0e0 0,#fff 100%);
+    background: -ms-linear-gradient(270deg,#e2e0e0 0,#fff 100%);
+    background: linear-gradient(0deg,#e2e0e0 0,#fff 100%);
+	text-shadow: none;
+}
+.commerce-buy-one-click-button-wrapper button.commerce-buy-one-click-button:hover, #cart-one-click .commerce-buy-one-click-button:hover {		
+	background-image:none;
+	background-color:#f1f1f1;
+	color:#6a6a6a!important;
+	border-left:1px solid #c3c3c3;
+}
+
+#cart-one-click .commerce-buy-one-click-button {
+	font-size: 14px;
+    padding: 5px 23px;
+    border-radius: 4px;
+}
+#cart-one-click  .commerce-buy-one-click-button-wrapper {
+    right: 0;
+    bottom: 0;
+    position: relative;
+    text-align: right;
+}
+
+/*****************************************/
