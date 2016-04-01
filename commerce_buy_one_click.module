@@ -160,8 +160,25 @@ function commerce_buy_one_click_form($form, &$form_state) {
 		'#weight' => 11,
 		'#markup' => '<div class="pr-inf"><h3>' .$product_title  . '</h3><div class="pr-inf-img"><img src="'.$imgsrc.'" alt= "'.$product_title.'"/></div><div class="pr-inf-price"><span>'.t('Price:').'</span> <strong>'.$price.'</strong></div></div>',
 	   );
-   }
+   } else {
+  // Страница корзины, добавляем информацию
+  global $user;
+  if ($order = commerce_cart_order_load($user->uid)) {
+    $wrapper = entity_metadata_wrapper('commerce_order', $order);
+	$total_amount = commerce_currency_amount_to_decimal($wrapper->commerce_order_total->amount->value(),'RUB');
+	//$total_currency = $wrapper->commerce_order_total->currency_code->value();
+	$quantity = commerce_line_items_quantity($wrapper->commerce_line_items, commerce_product_line_item_types());
+	//$quantity = format_plural($quan, '@count product', '@count products');
 
+		$form['form_wrapper']['commerce_buy_one_click_cart_info'] = array(
+		'#type' => 'markup',
+		'#weight' => 11,
+		'#markup' => '<div class="cart-information text-center"><p>' .t("Product in cart:").' '.$quantity  . ' '. t('eds.').' '.t('on total order').' <span class="brown">'. $total_amount .' '.t('RUB').'</span></p></div>',
+	   );	
+	
+  }
+  
+  }
   
   // Disable 1-click button if product is out of stock.
   if ($notid == 0) { 
@@ -177,7 +194,7 @@ function commerce_buy_one_click_form($form, &$form_state) {
 		  $form['form_wrapper']['#type'] = 'hidden';
 		}
 	  }
-  }
+  } 
 
   if (variable_get('commerce_buy_one_click_name_show', TRUE)) {
     $form['form_wrapper']['commerce_buy_one_click_name'] = array(
@@ -232,6 +249,7 @@ function commerce_buy_one_click_form($form, &$form_state) {
     //print_r($_REQUEST['product_id']);
     //print_r($form_state);
 
+
   return $form;
 }
 
@@ -239,6 +257,8 @@ function commerce_buy_one_click_form($form, &$form_state) {
  * Validate form.
  */
 function commerce_buy_one_click_form_validate($form, &$form_state) {
+
+  drupal_alter('commerce_buy_one_click_form_validate', $errors, $form, $form_state);
   if (variable_get('commerce_buy_one_click_email_show', TRUE)) {
     if (strlen(trim($form_state['values']['commerce_buy_one_click_email'])) == 0 && variable_get('commerce_buy_one_click_email_required', TRUE)) {
       $errors = t('Email must not be empty.');
@@ -263,7 +283,7 @@ function commerce_buy_one_click_form_validate($form, &$form_state) {
 	  }
   }
 
-  drupal_alter('commerce_buy_one_click_form_validate', $errors, $form, $form_state);
+
 
   if (!empty($errors)) {
     $commands = array();
@@ -333,6 +353,11 @@ function commerce_buy_one_click_form_submit($form, &$form_state) {
   // Add product to cart of the user if necessary.
   if (!empty($add_product_to_cart)) {
     $wrapper = entity_metadata_wrapper('commerce_order', $order);
+	//print_r($wrapper->commerce_customer_billing);
+
+	//var_dump($wrapper->commerce_customer_billing);
+	//dpm($wrapper->commerce_customer_billing->field_phone);
+	//$wrapper->commerce_customer_billing->field_phone->value = $form_state['values']['commerce_buy_one_click_phone'];
     $new_line_item = TRUE;
     foreach ($wrapper->commerce_line_items as $matching_line_item_wrapper) {
       if (!_commerce_buy_one_click_li_product_exists($matching_line_item_wrapper)) {
@@ -368,7 +393,7 @@ function commerce_buy_one_click_form_submit($form, &$form_state) {
   else {
     $order->mail = variable_get('commerce_buy_one_click_default_empty_email', "example@example.com");
   }
-  
+  //dpm($order);
   $order->status = 'pending';
   $order->uid = $order_user->uid;
   drupal_alter('commerce_buy_one_click_form_submit', $order, $order_user, $form, $form_state);
@@ -388,8 +413,23 @@ function commerce_buy_one_click_form_submit($form, &$form_state) {
     ),
     );
     drupal_alter('commerce_buy_one_click_admin_email_data', $admin_email_data, $form, $form_state);
-    drupal_mail('commerce_buy_one_click', 'commerce_buy_one_click_admin_mail', $admin_email, language_default(), $admin_email_data);
+    drupal_mail('commerce_buy_one_click', 'commerce_buy_one_click_admin_mail', $email, language_default(), $admin_email_data);
   }
+  
+  // Send message customers 
+  $subject = t('Buy with 1-Click" order ').' '. $order->order_id;
+ // $subject = variable_get('commerce_buy_one_click_admin_email_title', '[site:name]. "Buy with 1-Click" order [commerce-order:order-number].');
+  $mes = t('Thank you. for order '). $order->order_id . ' '.t('on site'). ' ' . variable_get('site_name');
+  $mes .= variable_get('global_info_text');
+  
+  drupal_mail('system', 'mail', $email, language_default(), array(
+  'context' => array(
+    'subject' => $subject,
+    'message' => $mes,
+  )
+));
+  
+  
 /*
   // Invoke "Completing the checkout process" rules event.
   rules_invoke_all('commerce_checkout_complete', $order);
@@ -492,7 +532,7 @@ function commerce_buy_one_click_tokens($type, $tokens, array $data = array(), ar
             $price_display = commerce_currency_format($price['amount'], $price['currency_code'], $line_item_wrapper->commerce_product->value());
 
             // Add data to token result.
-            $order_items_result .= t('SKU') . ': ' . $line_item_wrapper->commerce_product->sku->value() . PHP_EOL;
+            //$order_items_result .= t('SKU') . ': ' . $line_item_wrapper->commerce_product->sku->value() . PHP_EOL;
             $order_items_result .= t('Product') . ': ' . $line_item_wrapper->commerce_product->title->value() . PHP_EOL;
             $order_items_result .= t('Price (of one item)') . ': ' . $price_display . PHP_EOL;
             $order_items_result .= t('Quantity') . ': ' . $line_item_wrapper->quantity->value() . PHP_EOL;

@@ -117,3 +117,20 @@ Need add this code in page.tpl.php or in block
 <?php 
   } 
 } ?>
+
+=====================
+Add phone field with save in billing information
+=====================
+To use this module, you need do the following things:
+1. Install masked_input module: https://www.drupal.org/project/masked_input
+And place maskedinput folder from my archive to libraries folder. (my archive contains maskedinput 1.3.1, it is much better than laggy outdated 1.3 which is provided by default)
+
+2. You must add field_name and field_phone to the billing info of the user.
+
+In other words, you must go to this page /admin/commerce/customer-profiles/types/billing/fields
+And add two fields of type text with field_name and field_phone names.
+
+3. After that "Buy now with one click" popup must contain "Your phone" field. (see attached screenshot)
+You can change mask of this field in commerce_buy_one_click_phone.js file.
+
+4. You can make "Your email" field not required on /admin/config/commerce_buy_one_click page.

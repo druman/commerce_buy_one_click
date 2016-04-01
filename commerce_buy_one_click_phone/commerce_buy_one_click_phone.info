@@ -1,0 +1,6 @@
+name = Commerce Buy One Click Phone
+description = Add phone to fast order popup.
+package = Commerce
+core = "7.x"
+dependencies[] = commerce_buy_one_click
+dependencies[] = masked_input
