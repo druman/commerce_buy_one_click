@@ -153,7 +153,7 @@ function commerce_buy_one_click_form($form, &$form_state) {
     '#weight' => 10,
 	'#markup' => '<h2 class="title">' . $title_oneclick . '</h2>',
   );
-  
+
    if ($notid == 0) { // если страница товара, а не корзины
 		$form['form_wrapper']['commerce_buy_one_click_product_info'] = array(
 		'#type' => 'markup',
@@ -353,11 +353,6 @@ function commerce_buy_one_click_form_submit($form, &$form_state) {
   // Add product to cart of the user if necessary.
   if (!empty($add_product_to_cart)) {
     $wrapper = entity_metadata_wrapper('commerce_order', $order);
-	//print_r($wrapper->commerce_customer_billing);
-
-	//var_dump($wrapper->commerce_customer_billing);
-	//dpm($wrapper->commerce_customer_billing->field_phone);
-	//$wrapper->commerce_customer_billing->field_phone->value = $form_state['values']['commerce_buy_one_click_phone'];
     $new_line_item = TRUE;
     foreach ($wrapper->commerce_line_items as $matching_line_item_wrapper) {
       if (!_commerce_buy_one_click_li_product_exists($matching_line_item_wrapper)) {
@@ -413,7 +408,7 @@ function commerce_buy_one_click_form_submit($form, &$form_state) {
     ),
     );
     drupal_alter('commerce_buy_one_click_admin_email_data', $admin_email_data, $form, $form_state);
-    drupal_mail('commerce_buy_one_click', 'commerce_buy_one_click_admin_mail', $email, language_default(), $admin_email_data);
+    drupal_mail('commerce_buy_one_click', 'commerce_buy_one_click_admin_mail', $admin_email, language_default(), $admin_email_data);
   }
   
   // Send message customers 
